@@ -1,0 +1,9 @@
+{
+  "docs": {
+  	"Setting up your Machine": ["setup", "notes"],
+    "Getting Started": ["boot", "makefile", "print16", "address-org"],
+    "The Real Mode": ["intro-real-mode", "segmentation", "load-disk"],
+    "Switching to the Protected Mode": ["intro-protected-mode"],
+    "Setting up a screen driver": ["io-intro"]
+  }
+}
