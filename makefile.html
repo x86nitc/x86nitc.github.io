@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Using Makefile for Builds · x86NITC Docs</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="As the stages progress, we&#x27;ll find it increasingly difficult to compile, link and run the emulator. Hence it would be wise to start off with a Makefile right away so as to have scripted builds and runs. Lets us start by discussing about Makefile and the `make` tool."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Using Makefile for Builds · x86NITC Docs"/><meta property="og:type" content="website"/><meta property="og:url" content="https://x86nitc.github.io/"/><meta property="og:description" content="As the stages progress, we&#x27;ll find it increasingly difficult to compile, link and run the emulator. Hence it would be wise to start off with a Makefile right away so as to have scripted builds and runs. Lets us start by discussing about Makefile and the `make` tool."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/undefined"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><h2 class="headerTitle">x86NITC Docs</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Getting Started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Setting up your Machine<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/setup">Installing a CPU Emulator</a></li><li class="navListItem"><a class="navItem" href="/notes">A Note from your seniors</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/boot">Boot Sector Revisited</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/makefile">Using Makefile for Builds</a></li><li class="navListItem"><a class="navItem" href="/print16">Printing to Screen</a></li><li class="navListItem"><a class="navItem" href="/address-org">Boot Code Memory Offset</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">The Real Mode<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/intro-real-mode">Introduction to the Real Mode</a></li><li class="navListItem"><a class="navItem" href="/segmentation">Memory Organisation and Setting up Stack</a></li><li class="navListItem"><a class="navItem" href="/load-disk">Loading Disk Blocks to Memory</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Switching to the Protected Mode<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/intro-protected-mode">Introduction to the Protected Mode</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Setting up a screen driver<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/io-intro">Introduction to I/O Addressing</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Using Makefile for Builds</h1></header><article><div><span><p>As the stages progress, we'll find it increasingly difficult to compile, link and run the emulator. Hence it would be wise to start off with a Makefile right away so as to have scripted builds and runs. Lets us start by discussing about Makefile and the <code>make</code> tool.</p>
+<ul>
+<li>Makefile consists of a set of variables and rules.</li>
+<li>Rules have the following syntax:
+<pre><code class="hljs">targets: prerequisites
+    <span class="hljs-keyword">command</span>
+    <span class="hljs-keyword">command</span>
+    <span class="hljs-keyword">command</span>
+</code></pre></li>
+<li>When a target rule is triggered, it makes sure that the prerequisites are available. If not, it runs the rules for them (if available) and builds them before running this rule. If no rules are available for building them, it fails.</li>
+<li>By default, when the command <code>make</code> is run in a directory containing a Makefile, the first target rule is run by default.</li>
+<li>A rule by the target name of <code>target1</code> can be triggered by running <code>make target1</code>.</li>
+<li><code>$^</code> is equivalent the string of prerequisites for that rule, <code>$&lt;</code> is equivalent to the first prerequisite, and <code>$@</code> evaluates to the targets.</li>
+<li><code>%</code> is a wildcard matching any number of characters. This is useful in writing common rules for building/compiling similar files.</li>
+</ul>
+<p>For more information on Makefiles and make, visit <a href="https://makefiletutorial.com/">https://makefiletutorial.com/</a>. However do not spend too much time there for now. The above mentioned points will be sufficient for most of our stages for now.</p>
+<p>Let us now add a Makefile to the root of the project directory</p>
+<p class="codeblock-label">Makefile</p>
+<pre><code class="hljs css language-makefile"><span class="hljs-section">os-image.bin: boot/boot.bin</span>
+    cat <span class="hljs-variable">$^</span> &gt; <span class="hljs-variable">$@</span>
+
+<span class="hljs-section">%.bin: %.asm</span>
+    nasm -f bin <span class="hljs-variable">$&lt;</span> -o <span class="hljs-variable">$@</span>
+
+<span class="hljs-section">run: os-image.bin</span>
+    qemu-system-i386 -hda os-image.bin
+
+<span class="hljs-section">clean:</span>
+    rm -rf *.bin boot/*.bin
+</code></pre>
+<p>Our project directory should look like:</p>
+<pre><code class="hljs css language-text">project-root/
+├── Makefile
+└── boot/
+    └── boot.asm
+</code></pre>
+<p>Run the command <code>make</code> from the project root. This runs the first target rule in the Makefile i.e. <code>os-image.bin</code>.
+This rule has <code>boot/boot.bin</code> as a prerequisite. Hence it tries to build it first. <code>make</code> attempts to find another rule that tells it how to build <code>boot/boot.bin</code>. It matches the <code>%.bin</code> rule to build any .bin files. This has a prerequisite for <code>%.asm</code> which is <code>boot/boot.asm</code> in this context. Since that file is available, it runs the <code>nasm</code> command to compile the boot/boot.bin binary. Note how the special variables <code>$&lt;</code> and <code>$@</code> are used. <code>make</code> now runs the <code>cat</code> command under <code>os-image.bin</code> rule which writes the contents of the prerequisite binaries into a single <code>os-image.bin</code> file.</p>
+<p>Run the <code>make run</code> command from the project root to trigger the <code>run</code> rule in the Makefile. This runs the QEMU emulator with os-image.bin as the hard disk. Since the <code>run</code> rule has <code>os-image.bin</code> in its prerequisites (and will be built if not present), it is sufficient to simply run <code>make run</code> in the future.</p>
+<p>To remove the binary files and clean your project directory, run <code>make clean</code>. The <code>clean</code> rule deletes all binary files in the project.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/boot"><span class="arrow-prev">← </span><span>Boot Sector Revisited</span></a><a class="docs-next button" href="/print16"><span>Printing to Screen</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div></div></body></html>

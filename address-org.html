@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Boot Code Memory Offset · x86NITC Docs</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Recall the memory layout in eXpOS. The zeroth page in memory was reserved for the ROM code and the bootstrap code was loaded from block 0 of the disk and placed in page 1 of the memory by the same code. While many other structures like the Process Table could have been placed anywhere in memory as we wished to, we were not able to change the location of the bootstrap code location from page 1. The same went for the ROM code in page 0. This is because the ROM code is the first interface between the machine and the operating system. Even if we were able to change the location of the ROM code, it would simply contradict the architectural specifications and prevent our operating system from booting as required. The x86 architecture loads block 0 (boot block) of the disk to the memory location 0x7c00 (the equivalent to address 512 in XSM memory). "/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Boot Code Memory Offset · x86NITC Docs"/><meta property="og:type" content="website"/><meta property="og:url" content="https://x86nitc.github.io/"/><meta property="og:description" content="Recall the memory layout in eXpOS. The zeroth page in memory was reserved for the ROM code and the bootstrap code was loaded from block 0 of the disk and placed in page 1 of the memory by the same code. While many other structures like the Process Table could have been placed anywhere in memory as we wished to, we were not able to change the location of the bootstrap code location from page 1. The same went for the ROM code in page 0. This is because the ROM code is the first interface between the machine and the operating system. Even if we were able to change the location of the ROM code, it would simply contradict the architectural specifications and prevent our operating system from booting as required. The x86 architecture loads block 0 (boot block) of the disk to the memory location 0x7c00 (the equivalent to address 512 in XSM memory). "/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/undefined"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><h2 class="headerTitle">x86NITC Docs</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Getting Started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Setting up your Machine<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/setup">Installing a CPU Emulator</a></li><li class="navListItem"><a class="navItem" href="/notes">A Note from your seniors</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/boot">Boot Sector Revisited</a></li><li class="navListItem"><a class="navItem" href="/makefile">Using Makefile for Builds</a></li><li class="navListItem"><a class="navItem" href="/print16">Printing to Screen</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/address-org">Boot Code Memory Offset</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">The Real Mode<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/intro-real-mode">Introduction to the Real Mode</a></li><li class="navListItem"><a class="navItem" href="/segmentation">Memory Organisation and Setting up Stack</a></li><li class="navListItem"><a class="navItem" href="/load-disk">Loading Disk Blocks to Memory</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Switching to the Protected Mode<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/intro-protected-mode">Introduction to the Protected Mode</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Setting up a screen driver<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/io-intro">Introduction to I/O Addressing</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Boot Code Memory Offset</h1></header><article><div><span><p>Recall the memory layout in eXpOS. The zeroth page in memory was reserved for the ROM code and the bootstrap code was loaded from block 0 of the disk and placed in page 1 of the memory by the same code. While many other structures like the Process Table could have been placed anywhere in memory as we wished to, we were not able to change the location of the bootstrap code location from page 1. The same went for the ROM code in page 0. This is because the ROM code is the first interface between the machine and the operating system. Even if we were able to change the location of the ROM code, it would simply contradict the architectural specifications and prevent our operating system from booting as required. The x86 architecture loads block 0 (boot block) of the disk to the memory location 0x7c00 (the equivalent to address 512 in XSM memory).</p>
+<p>In the example from the previous section, we attempt to print the string &quot;Entered 16 bit Real Mode&quot; by passing its address to the print_string function through bx. The print_string function then accesses the memory content of bx and prints every character the same way.</p>
+<p>It is clear that the print_string function expects the absolute address of the character in memory to be printed. <code>nasm</code> simply compiles the code such that only the offset of the label within the code is passed as the address of MSG_REAL_MODE. But since we use the print_string function after loading the boot sector into memory, the absolute address the MSG_REAL_MODE label is 0x7c00 (address where the boot sector is loaded) + the offset of the label in the boot sector code.</p>
+<p>Adding 0x7c00 every time there is any memory reference within the boot sector code is messy and makes your code error-prone. Hence nasm provides us with a directive, <code>org</code>, which automatically offsets all such references by 0x7c00. Modify the <code>boot/boot.asm</code> to look like the one below.</p>
+<p class="codeblock-label">boot/boot.asm</p>
+<pre><code class="hljs">[org <span class="hljs-number">0x7c00</span>]
+
+<span class="hljs-keyword">mov</span> <span class="hljs-built_in">bx</span>, MSG_REAL_MODE
+<span class="hljs-keyword">call</span> print_string
+<span class="hljs-keyword">jmp</span> $
+
+<span class="hljs-meta">%include</span> <span class="hljs-string">"boot/print_string.asm"</span>
+
+MSG_REAL_MODE <span class="hljs-built_in">db</span> <span class="hljs-string">"Entered 16 bit Real Mode"</span>, <span class="hljs-number">0</span>
+
+<span class="hljs-built_in">times</span> <span class="hljs-number">510</span>-($-$$) <span class="hljs-built_in">db</span> <span class="hljs-number">0</span>
+<span class="hljs-built_in">dw</span> <span class="hljs-number">0xaa55</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/print16"><span class="arrow-prev">← </span><span>Printing to Screen</span></a><a class="docs-next button" href="/intro-real-mode"><span>Introduction to the Real Mode</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div></div></body></html>

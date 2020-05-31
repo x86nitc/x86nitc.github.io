@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Printing to Screen · x86NITC Docs</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="In this step, we shall build functions to help us with printing characters onto the screen in the real mode. These print functions are important for our further debugging purposes and hence it is imperative that we build these before proceeding further"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Printing to Screen · x86NITC Docs"/><meta property="og:type" content="website"/><meta property="og:url" content="https://x86nitc.github.io/"/><meta property="og:description" content="In this step, we shall build functions to help us with printing characters onto the screen in the real mode. These print functions are important for our further debugging purposes and hence it is imperative that we build these before proceeding further"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/undefined"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><h2 class="headerTitle">x86NITC Docs</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Getting Started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Setting up your Machine<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/setup">Installing a CPU Emulator</a></li><li class="navListItem"><a class="navItem" href="/notes">A Note from your seniors</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/boot">Boot Sector Revisited</a></li><li class="navListItem"><a class="navItem" href="/makefile">Using Makefile for Builds</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/print16">Printing to Screen</a></li><li class="navListItem"><a class="navItem" href="/address-org">Boot Code Memory Offset</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">The Real Mode<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/intro-real-mode">Introduction to the Real Mode</a></li><li class="navListItem"><a class="navItem" href="/segmentation">Memory Organisation and Setting up Stack</a></li><li class="navListItem"><a class="navItem" href="/load-disk">Loading Disk Blocks to Memory</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Switching to the Protected Mode<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/intro-protected-mode">Introduction to the Protected Mode</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Setting up a screen driver<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/io-intro">Introduction to I/O Addressing</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Printing to Screen</h1></header><article><div><span><p>In this step, we shall build functions to help us with printing characters onto the screen in the real mode. These print functions are important for our further debugging purposes and hence it is imperative that we build these before proceeding further</p>
+<p>Most motherboards today come with an additional flash memory chip loaded with a special piece of software called BIOS or Basic Input/Output Service. This software helps operating system designers with basic service routines that can be used to print to the screen and interact with the disk. The BIOS is automatically loaded into the RAM after the machine is powered on (also referred to as POST or Power-On Self Test). In this stage, we shall use the routines provided by BIOS to print two types of characters to the screen: ASCII and HEX. This will prove valuable for debugging in future stages.</p>
+<p>In order to print to the screen, we use the interrupt number 0x10. This invokes the BIOS video interrupt. How do we tell the interrupt that the functionality we want to use is to print to the screen and what to be printed? This is specified in the <code>ax</code> register. The higher order byte <code>ah</code> is to be stored with 0x0e which tells the interrupt that we want to use the &quot;print contents of <code>al</code> to the tty&quot; function. The byte to be printed in then stored in <code>al</code>.</p>
+<p>Let us look at an example and try printing HELLO to the screen.</p>
+<p class="codeblock-label">boot/boot.asm</p>
+<pre><code class="hljs"><span class="hljs-keyword">mov</span> <span class="hljs-number">ah</span>, <span class="hljs-number">0x0e</span> <span class="hljs-comment">; Specify the function to use i.e. print al to tty</span>
+<span class="hljs-keyword">mov</span> <span class="hljs-built_in">al</span>, <span class="hljs-string">'H'</span>
+<span class="hljs-keyword">int</span> <span class="hljs-number">0x10</span>
+<span class="hljs-keyword">mov</span> <span class="hljs-built_in">al</span>, <span class="hljs-string">'E'</span>
+<span class="hljs-keyword">int</span> <span class="hljs-number">0x10</span>
+<span class="hljs-keyword">mov</span> <span class="hljs-built_in">al</span>, <span class="hljs-string">'L'</span>
+<span class="hljs-keyword">int</span> <span class="hljs-number">0x10</span>
+<span class="hljs-keyword">mov</span> <span class="hljs-built_in">al</span>, <span class="hljs-string">'L'</span>
+<span class="hljs-keyword">int</span> <span class="hljs-number">0x10</span>
+<span class="hljs-keyword">mov</span> <span class="hljs-built_in">al</span>, <span class="hljs-string">'O'</span>
+<span class="hljs-keyword">int</span> <span class="hljs-number">0x10</span>
+
+<span class="hljs-keyword">jmp</span> $
+
+<span class="hljs-built_in">times</span> <span class="hljs-number">510</span>-($-$$) <span class="hljs-built_in">db</span> <span class="hljs-number">0</span>
+<span class="hljs-built_in">dw</span> <span class="hljs-number">0xaa55</span>
+</code></pre>
+<p>Since we shall be using this function extensively in the future, we shall write the function to a different file and use it inside boot/boot.asm using the <code>%include</code> directive. We shall assume that we provide the starting address of the string to print in the register <code>bx</code>. We will then retrieve individual characters from the string, use the BIOS interrupt to print the character and increment address of <code>bx</code> until the end of string (null character) is reached.</p>
+<p class="codeblock-label">boot/print_string.asm</p>
+<pre><code class="hljs"><span class="hljs-symbol">print_string:</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-number">ah</span>, <span class="hljs-number">0x0e</span> <span class="hljs-comment">; Specify the function to use i.e. print al to tty</span>
+<span class="hljs-symbol">    print:</span>
+        <span class="hljs-keyword">mov</span> <span class="hljs-built_in">al</span>, [<span class="hljs-built_in">bx</span>]
+        <span class="hljs-keyword">int</span> <span class="hljs-number">0x10</span>
+        <span class="hljs-keyword">inc</span> <span class="hljs-built_in">bx</span>
+        <span class="hljs-keyword">cmp</span> <span class="hljs-built_in">al</span>, <span class="hljs-number">0</span>
+        <span class="hljs-keyword">je</span> return
+        <span class="hljs-keyword">jmp</span> print
+<span class="hljs-symbol">    return:</span>
+    <span class="hljs-keyword">ret</span>
+</code></pre>
+<p class="codeblock-label">boot/boot.asm</p>
+<pre><code class="hljs"><span class="hljs-keyword">mov</span> <span class="hljs-built_in">bx</span>, MSG_REAL_MODE
+<span class="hljs-keyword">add</span> <span class="hljs-built_in">bx</span>, <span class="hljs-number">0x7c00</span> <span class="hljs-comment">; This line will be explained in the next section</span>
+<span class="hljs-keyword">call</span> print_string
+<span class="hljs-keyword">jmp</span> $
+
+<span class="hljs-meta">%include</span> <span class="hljs-string">"boot/print_string.asm"</span>
+
+MSG_REAL_MODE <span class="hljs-built_in">db</span> <span class="hljs-string">"Entered 16 bit Real Mode"</span>, <span class="hljs-number">0</span>
+
+<span class="hljs-built_in">times</span> <span class="hljs-number">510</span>-($-$$) <span class="hljs-built_in">db</span> <span class="hljs-number">0</span>
+<span class="hljs-built_in">dw</span> <span class="hljs-number">0xaa55</span>
+</code></pre>
+<p><code>make run</code> to see the message printed on the screen.</p>
+<p>We shall now proceed to write another function for printing hex values to the screen.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/makefile"><span class="arrow-prev">← </span><span>Using Makefile for Builds</span></a><a class="docs-next button" href="/address-org"><span>Boot Code Memory Offset</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div></div></body></html>

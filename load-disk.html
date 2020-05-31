@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Loading Disk Blocks to Memory · x86NITC Docs</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="As we progress through the stages, our Operating System will cease to fit in 512 bytes. Hence we&#x27;ll need to write other pieces of our code in different disk blocks. To be able to use them in our memory, we&#x27;ll have to load them first from the disk to memory. This is exactly what we shall be doing in this chapter."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Loading Disk Blocks to Memory · x86NITC Docs"/><meta property="og:type" content="website"/><meta property="og:url" content="https://x86nitc.github.io/"/><meta property="og:description" content="As we progress through the stages, our Operating System will cease to fit in 512 bytes. Hence we&#x27;ll need to write other pieces of our code in different disk blocks. To be able to use them in our memory, we&#x27;ll have to load them first from the disk to memory. This is exactly what we shall be doing in this chapter."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/undefined"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><h2 class="headerTitle">x86NITC Docs</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>The Real Mode</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Setting up your Machine<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/setup">Installing a CPU Emulator</a></li><li class="navListItem"><a class="navItem" href="/notes">A Note from your seniors</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/boot">Boot Sector Revisited</a></li><li class="navListItem"><a class="navItem" href="/makefile">Using Makefile for Builds</a></li><li class="navListItem"><a class="navItem" href="/print16">Printing to Screen</a></li><li class="navListItem"><a class="navItem" href="/address-org">Boot Code Memory Offset</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">The Real Mode<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/intro-real-mode">Introduction to the Real Mode</a></li><li class="navListItem"><a class="navItem" href="/segmentation">Memory Organisation and Setting up Stack</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/load-disk">Loading Disk Blocks to Memory</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Switching to the Protected Mode<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/intro-protected-mode">Introduction to the Protected Mode</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Setting up a screen driver<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/io-intro">Introduction to I/O Addressing</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Loading Disk Blocks to Memory</h1></header><article><div><span><p>As we progress through the stages, our Operating System will cease to fit in 512 bytes. Hence we'll need to write other pieces of our code in different disk blocks. To be able to use them in our memory, we'll have to load them first from the disk to memory. This is exactly what we shall be doing in this chapter.</p>
+<p>Let us recall the structure and working of the disk once again. In XSM, the disk was a software simulation and where disk reads were done using a single disk head and the disk was a long array of bytes. However actual hard disks consists of multiple disk platters layered on top of one another on a spindle. Each of these disks have two disk read heads to read from it one for each - top and bottom surfaces. On a lower level, each disk is divided into tracks and sectors. Tracks are concentric circular rings on the disk and each of the track is further divided into segments called sectors. The farthest track from the spindle is numbered as 0. The second farthest one is track 1 and so on. A collection of the same numbered tracks on all the disks is called a cylinder.</p>
+<p>For reading blocks from the disk, we will be using a different BIOS interrupt, INT 0x13 in particular. This interrupt contains service functions offered by the BIOS for handling diskette operations. We are interested in the disk read service and this is specified in the <code>ah</code> register (as seen earlier in print_string). The number of sectors to be read is given in <code>al</code>. The cylinder number (track number) is to be specified in <code>ch</code> and the sector to start reading from in <code>cl</code>. <code>dl</code> stores the drive number (0 for Floppy1, 0x80 for HDD1 etc). We need not set this explicitly as BIOS automatically sets this to the appropriate disk upon calling the interrupt if <code>dl</code> is not set by us. Finally <code>dh</code> stores the head number (platter number and which surface) to read from. After the interrupt is called, the data is loaded in the same order starting from address <code>[es:bx]</code>. Hence we specify <code>es</code> and <code>bx</code> with the segment and memory offset we want to load the blocks into.</p>
+<p>We will now write the actual function for loading blocks from the disk to memory. We shall write this in a new file and assume that only the number of sectors to be read, memory segment and memory offset to load this to as variables. We shall assume that the caller of this function already sets this in the <code>dh</code>, <code>es</code> and <code>bx</code> registers respectively.</p>
+<p class="codeblock-label">boot/disk.asm</p>
+<pre><code class="hljs"><span class="hljs-symbol">disk_load:</span>
+    <span class="hljs-keyword">pusha</span> <span class="hljs-comment">; Save all registers</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-number">ah</span>, <span class="hljs-number">0x02</span> <span class="hljs-comment">; Choose the "disk read" function</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">al</span>, <span class="hljs-number">dh</span> <span class="hljs-comment">; Number of sectors to read</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-number">ch</span>, <span class="hljs-number">0x0</span> <span class="hljs-comment">; Cylinder number (0 is the outermost one)</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">cl</span>, <span class="hljs-number">0x02</span> <span class="hljs-comment">; Start reading from second sector. Index starts from 1</span>
+    <span class="hljs-keyword">push</span> <span class="hljs-built_in">dx</span> <span class="hljs-comment">; Save dx as we will update dh next</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-number">dh</span>, <span class="hljs-number">0x0</span> <span class="hljs-comment">; Read from head 0</span>
+    <span class="hljs-keyword">int</span> <span class="hljs-number">0x13</span> <span class="hljs-comment">; Call BIOS diskette interrupt</span>
+
+    <span class="hljs-keyword">pop</span> <span class="hljs-built_in">dx</span> <span class="hljs-comment">; Restore dx so that dh contains the number of sectors again</span>
+
+    <span class="hljs-keyword">jc</span> disk_load_error
+    <span class="hljs-keyword">cmp</span> <span class="hljs-built_in">al</span>, <span class="hljs-number">dh</span>
+    <span class="hljs-keyword">jne</span> sectors_error
+
+    <span class="hljs-keyword">popa</span>
+    <span class="hljs-keyword">ret</span>
+<span class="hljs-symbol">
+disk_load_error:</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">bx</span>, DISK_LOAD_ERROR
+    <span class="hljs-keyword">call</span> print_string
+<span class="hljs-symbol">
+sectors_error:</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">bx</span>, SECTORS_ERROR
+    <span class="hljs-keyword">call</span> print_string
+<span class="hljs-symbol">
+DISK_LOAD_ERROR:</span> <span class="hljs-built_in">db</span> <span class="hljs-string">"Error loading from Disk"</span>, <span class="hljs-number">0</span>
+<span class="hljs-symbol">SECTORS_ERROR:</span> <span class="hljs-built_in">db</span> <span class="hljs-string">"Incorrect numbers of sectors read"</span>, <span class="hljs-number">0</span>
+</code></pre>
+<p>Modify our boot sector code (<code>boot/boot.asm</code>) to include <code>boot/disk.asm</code> functions in it.</p>
+<p class="codeblock-label">boot/boot.asm</p>
+<pre><code class="hljs">[org <span class="hljs-number">0x7c00</span>]
+
+<span class="hljs-keyword">mov</span> <span class="hljs-built_in">bx</span>, MSG_REAL_MODE
+<span class="hljs-keyword">call</span> print_string
+<span class="hljs-keyword">jmp</span> $
+
+<span class="hljs-meta">%include</span> <span class="hljs-string">"boot/print_string.asm"</span>
+<span class="hljs-meta">%include</span> <span class="hljs-string">"boot/disk.asm"</span>
+
+MSG_REAL_MODE <span class="hljs-built_in">db</span> <span class="hljs-string">"Entered 16 bit Real Mode"</span>, <span class="hljs-number">0</span>
+
+<span class="hljs-built_in">times</span> <span class="hljs-number">510</span>-($-$$) <span class="hljs-built_in">db</span> <span class="hljs-number">0</span>
+<span class="hljs-built_in">dw</span> <span class="hljs-number">0xaa55</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/segmentation"><span class="arrow-prev">← </span><span>Memory Organisation and Setting up Stack</span></a><a class="docs-next button" href="/intro-protected-mode"><span>Introduction to the Protected Mode</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div></div></body></html>
